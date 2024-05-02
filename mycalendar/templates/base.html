@@ -6,6 +6,27 @@
     <title>My Time</title>
   </head>
   <body>
-    <nav></nav>
+    <nav>
+      <div>
+        <a href="/">Home</a>
+        <div>
+          <ul>
+            {% if user.is_authenticated %}
+            <li>
+              <a href="/logout">Log out</a>
+            </li>
+            {% else %}
+            <li>
+              <a href="/singin">Inicia sesión</a>
+            </li>
+            <li>
+              <a href="/register">Registrate</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content %}{% endblock %}
   </body>
 </html>

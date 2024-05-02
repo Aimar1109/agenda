@@ -20,5 +20,8 @@ from mycalendar import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home')
+    path('', views.home, name='home'),
+    path('singin/', views.singin, name='singin'),
+    path('register/', views.register, name='register'),
+    path('logout/', views.singout, name='logout'),
 ]

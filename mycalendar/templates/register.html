@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<main>
+  <div>
+    <form method="POST">
+      <h1>Singin</h1>
+      {{error}}{% csrf_token %} {{form.as_p}}
+      <button>Registrate</button>
+    </form>
+  </div>
+</main>
+{% endblock %}
+
+<!-- 
+  <div>
+        <label for="username">Usuario: </label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Escribe tu nombre de usuario"
+          required
+        />
+      </div>
+      <div>
+        <label for="password">Contraseña: </label>
+        <input
+          type="password"
+          name="password1"
+          id="password1"
+          placeholder="Escribe tu nombre de contraseña"
+        />
+      </div>
+      <div>
+        <label for="password">Confirma la contraseña: </label>
+        <input
+          type="password"
+          name="password2"
+          id="password2"
+          placeholder="Escriba de nuevo su contraseña"
+        />
+      </div>
+-->
