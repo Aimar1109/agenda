@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
+from .forms import ExamForm
 
 # Create your views here.
 
@@ -54,6 +56,27 @@ def register(request):
         })
 
 
+@login_required
 def singout(request):
     logout(request)
     return redirect('home')
+
+
+@login_required
+def create_exam(request):
+    if request.method == 'GET':
+        return render(request, 'create_exam.html', {
+                      'form': ExamForm
+                      })
+    else:
+        try:
+            form = ExamForm(request.POST)
+            new_exam = form.save(commit=False)
+            new_exam.user = request.user
+            new_exam.save()
+            return redirect('home')
+        except ValueError:
+            return render(request, 'create_exam.html', {
+                'form': ExamForm,
+                'error': 'Por favor, introduce datos válidos'
+            })
