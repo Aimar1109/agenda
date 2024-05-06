@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from .forms import ExamForm
+from .models import Exam
 
 # Create your views here.
 
@@ -74,9 +75,17 @@ def create_exam(request):
             new_exam = form.save(commit=False)
             new_exam.user = request.user
             new_exam.save()
-            return redirect('home')
+            return redirect('examns')
         except ValueError:
             return render(request, 'create_exam.html', {
                 'form': ExamForm,
                 'error': 'Por favor, introduce datos válidos'
             })
+
+
+@login_required
+def examns(request):
+    examns = Exam.objects.filter(user=request.user)
+    return render(request, 'examns.html', {
+        'examns': examns
+    })

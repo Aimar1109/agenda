@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %}
+<main>
+  <div>
+    <h1>Lista de Examenes</h1>
+    <ul>
+      {% for examn in examns %}
+      <header>
+        {% if examn.hard %}
+        <h2>{{examn.title}}</h2>
+        {% else %}
+        <h3>{{examn.title}}</h3>
+        {% endif %}
+      </header>
+      <p>{{examn.description}}</p>
+      <p>{{examn.examdate|date:'M j Y:i'}}</p>
+      {% endfor %}
+    </ul>
+  </div>
+</main>
+{% endblock %}
