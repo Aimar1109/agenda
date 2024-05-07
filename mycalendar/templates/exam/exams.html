@@ -4,16 +4,16 @@
     <h1>Lista de Examenes</h1>
     <a href="/create_exam">Apuntar Nuevo Examen</a>
     <ul>
-      {% for examn in examns %}
+      {% for exam in exams %}
       <header>
-        {% if examn.hard %}
-        <h2>{{examn.title}}</h2>
+        {% if exam.hard %}
+        <h2>{{exam.title}}</h2>
         {% else %}
-        <h3>{{examn.title}}</h3>
+        <h3>{{exam.title}}</h3>
         {% endif %}
       </header>
-      <p>{{examn.description}}</p>
-      <p>{{examn.examdate|date:'M j Y'}}</p>
+      <p>{{exam.description}}</p>
+      <p>{{exam.examdate|date:'M j Y'}}</p>
       {% endfor %}
     </ul>
   </div>

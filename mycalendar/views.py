@@ -66,7 +66,7 @@ def singout(request):
 @login_required
 def create_exam(request):
     if request.method == 'GET':
-        return render(request, 'create_exam.html', {
+        return render(request, 'exam/create_exam.html', {
                       'form': ExamForm
                       })
     else:
@@ -75,26 +75,26 @@ def create_exam(request):
             new_exam = form.save(commit=False)
             new_exam.user = request.user
             new_exam.save()
-            return redirect('examns')
+            return redirect('exams')
         except ValueError:
-            return render(request, 'create_exam.html', {
+            return render(request, 'exam/create_exam.html', {
                 'form': ExamForm,
                 'error': 'Por favor, introduce datos válidos'
             })
 
 
 @login_required
-def examns(request):
-    examns = Exam.objects.filter(user=request.user)
-    return render(request, 'examns.html', {
-        'examns': examns
+def exams(request):
+    exams = Exam.objects.filter(user=request.user)
+    return render(request, 'exam/exams.html', {
+        'exams': exams
     })
 
 
 @login_required
 def create_project(request):
     if request.method == 'GET':
-        return render(request, 'create_project.html', {
+        return render(request, 'project_/create_project.html', {
             'form': ProjectForm
         })
     else:
@@ -105,7 +105,7 @@ def create_project(request):
             new_project.save()
             return redirect('projects')
         except ValueError:
-            return render(request, 'create_project.html', {
+            return render(request, 'project_/create_project.html', {
                 'form': ProjectForm,
                 'error': 'Por favor, introduce datos válidos'
             })
@@ -114,6 +114,6 @@ def create_project(request):
 @login_required
 def projects(request):
     projects = Project.objects.filter(user=request.user)
-    return render(request, 'projects.html', {
+    return render(request, 'project_/projects.html', {
         'projects': projects
     })
