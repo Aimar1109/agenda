@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
-from .forms import ExamForm
-from .models import Exam
+from .forms import ExamForm, ProjectForm
+from .models import Exam, Project
 
 # Create your views here.
 
@@ -88,4 +88,32 @@ def examns(request):
     examns = Exam.objects.filter(user=request.user)
     return render(request, 'examns.html', {
         'examns': examns
+    })
+
+
+@login_required
+def create_project(request):
+    if request.method == 'GET':
+        return render(request, 'create_project.html', {
+            'form': ProjectForm
+        })
+    else:
+        try:
+            form = ProjectForm(request.POST)
+            new_project = form.save(commit=False)
+            new_project.user = request.user
+            new_project.save()
+            return redirect('projects')
+        except ValueError:
+            return render(request, 'create_project.html', {
+                'form': ProjectForm,
+                'error': 'Por favor, introduce datos válidos'
+            })
+
+
+@login_required
+def projects(request):
+    projects = Project.objects.filter(user=request.user)
+    return render(request, 'projects.html', {
+        'projects': projects
     })
