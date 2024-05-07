@@ -2,19 +2,26 @@
 <main>
   <div>
     <h1>Lista de Examenes</h1>
-    <a href="/create_exam">Apuntar Nuevo Examen</a>
+    <a style="text-decoration: none" href="{% url 'create_exam' %}"
+      >Apuntar Nuevo Examen</a
+    >
     <ul>
-      {% for exam in exams %}
-      <header>
-        {% if exam.hard %}
-        <h2>{{exam.title}}</h2>
-        {% else %}
-        <h3>{{exam.title}}</h3>
-        {% endif %}
-      </header>
-      <p>{{exam.description}}</p>
-      <p>{{exam.examdate|date:'M j Y'}}</p>
-      {% endfor %}
+      {% for exam in exams|dictsort:"examdate" %}
+      <a
+        style="text-decoration: none; color: black"
+        href="{% url 'exam_detail' exam.id %}"
+      >
+        <header>
+          {% if exam.hard %}
+          <h2>{{exam.title}}</h2>
+          {% else %}
+          <h3>{{exam.title}}</h3>
+          {% endif %}
+        </header>
+        <p>{{exam.description}}</p>
+        <p>{{exam.examdate|date:'M j Y'}}</p>
+        {% endfor %}
+      </a>
     </ul>
   </div>
 </main>

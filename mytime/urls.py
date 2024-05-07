@@ -21,11 +21,22 @@ from mycalendar import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+
     path('singin/', views.singin, name='singin'),
     path('register/', views.register, name='register'),
     path('logout/', views.singout, name='logout'),
-    path('create_exam/', views.create_exam, name='create_exam'),
+
     path('exams/', views.exams, name='exams'),
-    path('create_project/', views.create_project, name='create_project'),
+    path('exams/create/', views.create_exam, name='create_exam'),
+    path('exams/<int:exam_id>', views.exam_detail, name='exam_detail'),
+    path('exams/<int:exam_id>/delete', views.delete_exam, name='delete_exam'),
+
     path('projects/', views.projects, name='projects'),
+    path('projects/create/', views.create_project, name='create_project'),
+    path('projects/<int:project_id>', views.project_detail, name='project_detail'),
+    path('projects/<int:project_id>/delete',
+         views.delete_project, name='delete_project'),
+    path('projects/<int:project_id>/complete',
+         views.complete_project, name='complete_project'),
+
 ]

@@ -2,20 +2,27 @@
 <main>
   <div>
     <h1>Lista de Projectos</h1>
-    <a href="/create_project">Apuntar Nuevo Projecto</a>
+    <a style="text-decoration: none" href="{% url 'create_project' %}"
+      >Apuntar Nuevo Projecto</a
+    >
     <ul>
-      {% for project in projects %}
-      <header>
-        {% if project.important %}
-        <h2>{{project.title}}</h2>
-        {% else %}
-        <h3>{{project.title}}</h3>
-        {% endif %}
-      </header>
-      <p>{{project.description}}</p>
-      <p>{{project.subject}}</p>
-      <p>{{project.examdate|date:'M j Y'}}</p>
-      {% endfor %}
+      {% for project in projects|dictsort:"examdate" %}
+      <a
+        style="text-decoration: none; color: black"
+        href="{% url 'project_detail' project.id %}"
+      >
+        <header>
+          {% if project.important %}
+          <h2>{{project.title}}</h2>
+          {% else %}
+          <h3>{{project.title}}</h3>
+          {% endif %}
+        </header>
+        <p>{{project.description}}</p>
+        <p>{{project.subject}}</p>
+        <p>{{project.examdate|date:'M j Y'}}</p>
+        {% endfor %}
+      </a>
     </ul>
   </div>
 </main>

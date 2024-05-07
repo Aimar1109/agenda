@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from datetime import timezone
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
@@ -92,6 +93,37 @@ def exams(request):
 
 
 @login_required
+def exam_detail(request, exam_id):
+    if request.method == 'GET':
+        exam = get_object_or_404(Exam, pk=exam_id, user=request.user)
+        form = ExamForm(instance=exam)
+        return render(request, 'exam/exam_detail.html', {
+            'exam': exam,
+            'form': form
+        })
+    else:
+        try:
+            exam = get_object_or_404(Exam, pk=exam_id, user=request.user)
+            form = ExamForm(request.POST, instance=exam)
+            form.save()
+            return redirect('exams')
+        except ValueError:
+            return render(request, 'exam/exam_detail.html', {
+                'exam': exam,
+                'form': form,
+                'error': 'Error actualizando datos.'
+            })
+
+
+@login_required
+def delete_exam(request, exam_id):
+    exam = get_object_or_404(Exam, pk=exam_id, user=request.user)
+    if request.method == 'POST':
+        exam.delete()
+        return redirect('exams')
+
+
+@login_required
 def create_project(request):
     if request.method == 'GET':
         return render(request, 'project_/create_project.html', {
@@ -117,3 +149,44 @@ def projects(request):
     return render(request, 'project_/projects.html', {
         'projects': projects
     })
+
+
+@login_required
+def project_detail(request, project_id):
+    if request.method == 'GET':
+        project = get_object_or_404(Project, pk=project_id, user=request.user)
+        form = ProjectForm(instance=project)
+        return render(request, 'project_/project_detail.html', {
+            'project': project,
+            'form': form
+        })
+    else:
+        try:
+            project = get_object_or_404(
+                Project, pk=project_id, user=request.user)
+            form = ProjectForm(request.POST, instance=project)
+            form.save()
+            return redirect('projects')
+        except ValueError:
+            return render(request, 'project_/project_detail.html', {
+                'project': project,
+                'form': form,
+                'error': 'Error actualizando datos.'
+            })
+
+
+@login_required
+def complete_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, user=request.user)
+    if request.method == 'POST':
+        project.datecomplete = timezone.now()
+        project.save()
+        return redirect('projects')
+
+
+@login_required
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id, user=request.user)
+    if request.method == 'POST':
+        project.delete()
+        return redirect('projects')

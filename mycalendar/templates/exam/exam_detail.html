@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block content %}
+
+<main>
+  <div>
+    <h1>{{exam.title}}</h1>
+
+    {{error}}
+
+    <form method="POST">
+      {% csrf_token %} {{form.as_p}}
+      <button>Actualizar</button>
+    </form>
+    <div>
+      <form action="{% url 'delete_exam' exam.id %}" method="POST">
+        {% csrf_token %}
+        <button>Eliminar</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}
